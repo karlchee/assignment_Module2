@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: order_items
+    description: "Fact table for order items."
+    columns:
+      - name: product_id
+        description: "Foreign key to products dimension table"
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('products')
+                field: product_id
+      - name: seller_id
+        description: "Foreign key to sellers dimension table"
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('sellers')
+                field: seller_id
+      - name: customer_id
+        description: "Foreign key to customers dimension table"
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('customers')
+                field: customer_id
+      - name: order_purchase_date
+        description: "The date when the order was purchased"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              arguments:
+                column_type: date
+      - name: payment_value
+        description: "The total payment value for the order item"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+

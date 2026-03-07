@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: customers
+    description: "Dimension table for customers."
+    columns:
+      - name: customer_id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+  - name: sellers
+    description: "Dimension table for sellers."
+    columns:
+      - name: seller_id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+  - name: products
+    description: "Dimension table for products."
+    columns:
+      - name: product_id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
