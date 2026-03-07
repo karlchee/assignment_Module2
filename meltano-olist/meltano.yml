@@ -44,7 +44,7 @@ plugins:
     variant: z3z1ma
     pip_url: git+https://github.com/z3z1ma/target-bigquery.git setuptools<70
     config:
-      credentials_path: /home/karlchee/assignment_Module2/meltano-Olist/academic-era-488315-j5-52715453be94.json
+      credentials_path: /home/karlchee/assignment_Module2/meltano-olist/academic-era-488315-j5-52715453be94.json
       dataset: olist_staging
       denormalized: true
       flattening_enabled: true

@@ -1,9 +1,11 @@
+import csv
+import io
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
 PROJECT_ID = "academic-era-488315-j5"
 DATASET_ID = "olist_staging"
-CREDENTIALS_PATH = "/home/karlchee/assignment_Module2/meltano-Olist/academic-era-488315-j5-52715453be94.json"
+CREDENTIALS_PATH = "/home/karlchee/assignment_Module2/meltano-olist/academic-era-488315-j5-52715453be94.json"
 DATA_DIR = "/home/karlchee/assignment_Module2/data"
 
 FILES = [
@@ -27,22 +29,30 @@ dataset_ref.location = "US"
 client.create_dataset(dataset_ref, exists_ok=True)
 print(f"Dataset '{DATASET_ID}' ready.\n")
 
-job_config = bigquery.LoadJobConfig(
-    autodetect=True,
-    skip_leading_rows=1,
-    source_format=bigquery.SourceFormat.CSV,
-    write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
-    encoding="UTF-8",
-)
-
 for filename, table_name in FILES:
     file_path = f"{DATA_DIR}/{filename}"
     table_ref = f"{PROJECT_ID}.{DATASET_ID}.{table_name}"
+
+    with open(file_path, "r", encoding="utf-8-sig", newline="") as f:
+        content = f.read().replace("\r\n", "\n").replace("\r", "\n")
+
+    headers = next(csv.reader(io.StringIO(content)))
+    schema = [bigquery.SchemaField(col.strip(), "STRING") for col in headers]
+
+    job_config = bigquery.LoadJobConfig(
+        schema=schema,
+        skip_leading_rows=1,
+        source_format=bigquery.SourceFormat.CSV,
+        write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
+        allow_quoted_newlines=True,
+    )
+
     # Drop existing table to avoid partitioning/schema conflicts
     client.delete_table(table_ref, not_found_ok=True)
     print(f"Loading {filename} -> {table_name} ...", end=" ", flush=True)
-    with open(file_path, "rb") as f:
-        job = client.load_table_from_file(f, table_ref, job_config=job_config)
+
+    data = io.BytesIO(content.encode("utf-8"))
+    job = client.load_table_from_file(data, table_ref, job_config=job_config)
     job.result()  # wait for job to complete
     table = client.get_table(table_ref)
     print(f"done. {table.num_rows} rows loaded.")
