@@ -1,0 +1,53 @@
+default_environment: dev
+project_id: 019cbe5d-223d-7513-a843-5817d8b56d73
+environments:
+- name: dev
+- name: staging
+- name: prod
+plugins:
+  extractors:
+  - name: tap-csv
+    variant: meltanolabs
+    pip_url: git+https://github.com/MeltanoLabs/tap-csv.git
+    config:
+      files:
+      - entity: customers
+        path: /home/karlchee/assignment_Module2/data/olist_customers_dataset.csv
+        keys: [customer_id]
+      - entity: sellers
+        path: /home/karlchee/assignment_Module2/data/olist_sellers_dataset.csv
+        keys: [seller_id]
+      # - entity: products
+      #   path: /home/karlchee/assignment_Module2/data/olist_products_dataset.csv
+      #   keys: [product_id]
+      # - entity: products_category_name_translation
+      #   path: /home/karlchee/assignment_Module2/data/product_category_name_translation.csv
+      #   keys: [product_category_name]
+      - entity: geolocation
+        path: /home/karlchee/assignment_Module2/data/olist_geolocation_dataset.csv
+        keys: [geolocation_zip_code_prefix]
+      - entity: orders
+        path: /home/karlchee/assignment_Module2/data/olist_orders_dataset.csv
+        keys: [order_id]
+      - entity: order_items
+        path: /home/karlchee/assignment_Module2/data/olist_order_items_dataset.csv
+        keys: [order_id, order_item_id]
+      - entity: order_payments
+        path: /home/karlchee/assignment_Module2/data/olist_order_payments_dataset.csv
+        keys: [order_id, payment_sequential]
+      - entity: order_reviews
+        path: /home/karlchee/assignment_Module2/data/olist_order_reviews_dataset.csv
+        keys: [order_id, review_id]
+
+  loaders:
+  - name: target-bigquery
+    variant: z3z1ma
+    pip_url: git+https://github.com/z3z1ma/target-bigquery.git setuptools<70
+    config:
+      credentials_path: /home/karlchee/assignment_Module2/meltano-Olist/academic-era-488315-j5-52715453be94.json
+      dataset: olist_staging
+      denormalized: true
+      flattening_enabled: true
+      flattening_max_depth: 1
+      method: batch_job
+      project: academic-era-488315-j5
