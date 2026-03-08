@@ -1,5 +1,4 @@
-import csv
-import io
+import pandas as pd
 from google.cloud import bigquery
 from google.oauth2 import service_account
 
@@ -20,41 +19,44 @@ FILES = [
     ("olist_order_reviews_dataset.csv",          "order_reviews"),
 ]
 
-credentials = service_account.Credentials.from_service_account_file(CREDENTIALS_PATH)
-client = bigquery.Client(project=PROJECT_ID, credentials=credentials)
 
-# Create dataset if it doesn't exist
-dataset_ref = bigquery.Dataset(f"{PROJECT_ID}.{DATASET_ID}")
-dataset_ref.location = "US"
-client.create_dataset(dataset_ref, exists_ok=True)
-print(f"Dataset '{DATASET_ID}' ready.\n")
+def main(log=None):
+    def log_info(msg):
+        if log:
+            log.info(msg)
+        else:
+            print(msg)
 
-for filename, table_name in FILES:
-    file_path = f"{DATA_DIR}/{filename}"
-    table_ref = f"{PROJECT_ID}.{DATASET_ID}.{table_name}"
+    credentials = service_account.Credentials.from_service_account_file(CREDENTIALS_PATH)
+    client = bigquery.Client(project=PROJECT_ID, credentials=credentials)
 
-    with open(file_path, "r", encoding="utf-8-sig", newline="") as f:
-        content = f.read().replace("\r\n", "\n").replace("\r", "\n")
-
-    headers = next(csv.reader(io.StringIO(content)))
-    schema = [bigquery.SchemaField(col.strip(), "STRING") for col in headers]
+    # Create dataset if it doesn't exist
+    dataset_ref = bigquery.Dataset(f"{PROJECT_ID}.{DATASET_ID}")
+    dataset_ref.location = "US"
+    client.create_dataset(dataset_ref, exists_ok=True)
+    log_info(f"Dataset '{DATASET_ID}' ready.")
 
     job_config = bigquery.LoadJobConfig(
-        schema=schema,
-        skip_leading_rows=1,
-        source_format=bigquery.SourceFormat.CSV,
         write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
-        allow_quoted_newlines=True,
     )
 
-    # Drop existing table to avoid partitioning/schema conflicts
-    client.delete_table(table_ref, not_found_ok=True)
-    print(f"Loading {filename} -> {table_name} ...", end=" ", flush=True)
+    for filename, table_name in FILES:
+        file_path = f"{DATA_DIR}/{filename}"
+        table_ref = f"{PROJECT_ID}.{DATASET_ID}.{table_name}"
 
-    data = io.BytesIO(content.encode("utf-8"))
-    job = client.load_table_from_file(data, table_ref, job_config=job_config)
-    job.result()  # wait for job to complete
-    table = client.get_table(table_ref)
-    print(f"done. {table.num_rows} rows loaded.")
+        df = pd.read_csv(file_path, encoding="utf-8-sig")
 
-print("\nAll tables loaded successfully.")
+        # Drop existing table to avoid partitioning/schema conflicts
+        client.delete_table(table_ref, not_found_ok=True)
+        log_info(f"Loading {filename} -> {table_name} ...")
+
+        job = client.load_table_from_dataframe(df, table_ref, job_config=job_config)
+        job.result()  # wait for job to complete
+        table = client.get_table(table_ref)
+        log_info(f"  done. {table.num_rows} rows loaded.")
+
+    log_info("All tables loaded successfully.")
+
+
+if __name__ == "__main__":
+    main()

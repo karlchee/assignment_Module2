@@ -6,7 +6,7 @@ SELECT
     oi.product_id,
     oi.seller_id,
     o.customer_id,
-    CAST(o.order_purchase_timestamp AS DATE) AS order_purchase_date,
+    DATE(TIMESTAMP(o.order_purchase_timestamp)) AS order_purchase_date,
     CAST(oi.price AS FLOAT64) AS price,
     CAST(oi.freight_value AS FLOAT64) AS freight_value,
     CAST(oi.price AS FLOAT64) * CAST(oi.freight_value AS FLOAT64) AS payment_value
