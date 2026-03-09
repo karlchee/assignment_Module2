@@ -4,7 +4,7 @@ from google.oauth2 import service_account
 
 PROJECT_ID = "academic-era-488315-j5"
 DATASET_ID = "olist_staging"
-CREDENTIALS_PATH = "/home/karlchee/assignment_Module2/meltano-olist/academic-era-488315-j5-52715453be94.json"
+CREDENTIALS_PATH = "/home/karlchee/Keys/academic-era-488315-j5-52715453be94.json"
 DATA_DIR = "/home/karlchee/assignment_Module2/data"
 
 FILES = [
