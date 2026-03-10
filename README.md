@@ -18,6 +18,10 @@ load_to_bigquery.py
     ↓
 BigQuery Staging Dataset (olist_staging)
     ↓
+dbt Snapshot (SCD Type 2)
+    ↓
+BigQuery Snapshots Dataset (olist_snapshots)
+    ↓
 dbt Transformation
     ↓
 BigQuery Data Warehouse (olist_data_warehouse)
@@ -53,6 +57,9 @@ assignment_Module2/
 │   │   ├── schema.yml               # dbt schema definitions
 │   │   ├── source.yml               # dbt source definitions
 │   │   └── star/                    # star schema models
+│   ├── snapshots/                   # dbt SCD Type 2 snapshots
+│   │   ├── customers_snapshot.sql   # Customer SCD snapshot
+│   │   └── sellers_snapshot.sql     # Seller SCD snapshot
 │   ├── tests/                       # dbt tests
 │   ├── macros/                      # dbt macros
 │   └── dbt_packages/                # dbt package dependencies
@@ -141,10 +148,17 @@ dbt run
 
 **Output**: 9 staging tables in BigQuery
 
-### Step 2: Data Transformation (`dbt_warehouse` asset)
-- Depends on `staging_tables` (automatically triggered after ingestion)
+### Step 2: SCD Snapshots (`dbt_snapshots` asset)
+- Depends on `staging_tables`
+- Runs `dbt snapshot` to build SCD Type 2 tables for `customers` and `sellers`
+- Tracks historical changes using `dbt_valid_from`, `dbt_valid_to`, and `dbt_scd_id`
+
+**Output**: `customers_snapshot` and `sellers_snapshot` tables in BigQuery `olist_snapshots` dataset
+
+### Step 3: Data Transformation (`dbt_warehouse` asset)
+- Depends on both `staging_tables` and `dbt_snapshots`
 - Runs dbt models to transform and structure the data
-- Builds star schema and dimensional models
+- Builds star schema and dimensional models; fact tables (e.g. `order_items`) join to snapshot surrogate keys (`dbt_scd_id`) using `order_purchase_timestamp`
 - Applies data quality tests
 
 **Output**: Transformed tables in BigQuery data warehouse
@@ -165,7 +179,7 @@ dbt run
 
 ### Dagster Settings (in `workspace.yaml`)
 - **Load Definition**: `dagster_pipeline/definitions.py`
-- **Assets**: `staging_tables`, `dbt_warehouse`
+- **Assets**: `staging_tables`, `dbt_snapshots`, `dbt_warehouse`
 
 ## Key Features
 
@@ -215,7 +229,7 @@ dbt run
 
 ## Note
 
-The `meltano-olist/` directory contains configuration files but is **not used in the active ELT process**. This project uses Dagster and dbt directly for orchestration and transformation.
+The `meltano-olist/` directory contains a Meltano ELT pipeline (`tap-csv` → `target-bigquery`) as an alternative ingestion approach. The primary pipeline uses Dagster and dbt directly.
 
 ## License
 

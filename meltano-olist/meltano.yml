@@ -17,12 +17,12 @@ plugins:
       - entity: sellers
         path: /home/karlchee/assignment_Module2/data/olist_sellers_dataset.csv
         keys: [seller_id]
-      # - entity: products
-      #   path: /home/karlchee/assignment_Module2/data/olist_products_dataset.csv
-      #   keys: [product_id]
-      # - entity: products_category_name_translation
-      #   path: /home/karlchee/assignment_Module2/data/product_category_name_translation.csv
-      #   keys: [product_category_name]
+      - entity: products
+        path: /home/karlchee/assignment_Module2/data/olist_products_dataset.csv
+        keys: [product_id]
+      - entity: products_category_name_translation
+        path: /home/karlchee/assignment_Module2/data/product_category_name_translation.csv
+        keys: [product_category_name]
       - entity: geolocation
         path: /home/karlchee/assignment_Module2/data/olist_geolocation_dataset.csv
         keys: [geolocation_zip_code_prefix]
@@ -44,8 +44,9 @@ plugins:
     variant: z3z1ma
     pip_url: git+https://github.com/z3z1ma/target-bigquery.git setuptools<70
     config:
+      batch_size: 104857600
       credentials_path: /home/karlchee/Keys/academic-era-488315-j5-52715453be94.json
-      dataset: olist_staging
+      dataset: olist_staging_meltano
       denormalized: true
       flattening_enabled: true
       flattening_max_depth: 1

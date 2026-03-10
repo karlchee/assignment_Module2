@@ -12,22 +12,22 @@ models:
               arguments:
                 to: ref('products')
                 field: product_id
-      - name: seller_id
+      - name: seller_scd_id
         description: "Foreign key to sellers dimension table"
         tests:
           - not_null
           - relationships:
               arguments:
                 to: ref('sellers')
-                field: seller_id
-      - name: customer_id
+                field: dbt_scd_id
+      - name: customer_scd_id
         description: "Foreign key to customers dimension table"
         tests:
           - not_null
           - relationships:
               arguments:
                 to: ref('customers')
-                field: customer_id
+                field: dbt_scd_id
       - name: order_purchase_date
         description: "The date when the order was purchased"
         tests:

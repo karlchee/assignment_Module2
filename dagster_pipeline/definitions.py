@@ -1,6 +1,6 @@
 from dagster import Definitions, ScheduleDefinition, define_asset_job
 
-from dagster_pipeline.assets import dbt_warehouse, staging_tables
+from dagster_pipeline.assets import staging_tables, dbt_snapshots, dbt_warehouse
 
 # Define a job that runs both assets
 elt_job = define_asset_job(
@@ -15,7 +15,7 @@ elt_schedule = ScheduleDefinition(
 )
 
 defs = Definitions(
-    assets=[staging_tables, dbt_warehouse],
+    assets=[staging_tables, dbt_snapshots, dbt_warehouse],
     schedules=[elt_schedule],
     jobs=[elt_job],
 )

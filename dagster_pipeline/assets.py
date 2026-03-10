@@ -22,7 +22,24 @@ def staging_tables(context: AssetExecutionContext) -> MaterializeResult:
     ])})
 
 
-@asset(deps=[staging_tables], group_name="warehouse", compute_kind="dbt")
+@asset(deps=[staging_tables], group_name="snapshots", compute_kind="dbt")
+def dbt_snapshots(context: AssetExecutionContext) -> MaterializeResult:
+    """Run dbt snapshots for customers and sellers SCD tables."""
+    context.log.info("Running dbt snapshot...")
+    result = subprocess.run(
+        ["dbt", "snapshot", "--profiles-dir", str(DBT_PROJECT_DIR), "--project-dir", str(DBT_PROJECT_DIR)],
+        capture_output=True,
+        text=True,
+    )
+    context.log.info(result.stdout)
+    if result.returncode != 0:
+        context.log.error(result.stderr)
+        raise Exception(f"dbt snapshot failed:\n{result.stderr}")
+
+    return MaterializeResult(metadata={"status": "success", "snapshots_completed": True})
+
+
+@asset(deps=[staging_tables, dbt_snapshots], group_name="warehouse", compute_kind="dbt")
 def dbt_warehouse(context: AssetExecutionContext) -> MaterializeResult:
     """Run dbt transformations to build olist_data_warehouse and run tests."""
     # Run dbt run

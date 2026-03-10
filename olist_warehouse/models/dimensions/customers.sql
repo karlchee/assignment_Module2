@@ -10,12 +10,17 @@ WITH avg_geolocation AS (
 )
 
 SELECT
-    s.seller_id,
-    s.seller_zip_code_prefix,
-    s.seller_city,
-    s.seller_state,
+    c.dbt_scd_id,
+    c.customer_id,
+    c.customer_unique_id,
+    c.customer_zip_code_prefix,
+    c.customer_city,
+    c.customer_state,
     ag.avg_geolocation_lat,
-    ag.avg_geolocation_lng
-FROM {{ source('olist_staging', 'sellers') }} s
+    ag.avg_geolocation_lng,
+    c.dbt_valid_from,
+    c.dbt_valid_to
+FROM {{ source('olist_snapshots', 'customers_snapshot') }} c
 LEFT JOIN avg_geolocation ag
-    ON s.seller_zip_code_prefix = ag.geolocation_zip_code_prefix
+    ON c.customer_zip_code_prefix = ag.geolocation_zip_code_prefix
+

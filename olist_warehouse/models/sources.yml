@@ -13,3 +13,8 @@ sources:
       - name: order_payments
       - name: order_reviews
       - name: geolocation
+  - name: olist_snapshots
+    database: academic-era-488315-j5
+    tables:
+      - name: customers_snapshot
+      - name: sellers_snapshot
