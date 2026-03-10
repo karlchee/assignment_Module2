@@ -105,10 +105,10 @@ pip install dagster pandas google-cloud-bigquery google-oauth2 dbt-bigquery
 
 Place your GCP service account JSON file at:
 ```
-meltano-olist/academic-era-488315-j5-52715453be94.json
+/home/karlchee/Keys/academic-era-488315-j5-52715453be94.json
 ```
 
-The `load_to_bigquery.py` script references this path to authenticate with BigQuery.
+This path is referenced in both `olist_warehouse/profiles.yml` and `meltano-olist/meltano.yml` for BigQuery authentication.
 
 ### 3. Configure dbt Profiles
 
