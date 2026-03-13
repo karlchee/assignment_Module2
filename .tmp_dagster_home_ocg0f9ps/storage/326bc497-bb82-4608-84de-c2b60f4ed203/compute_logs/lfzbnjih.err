@@ -1,0 +1,23 @@
+[32m2026-03-13 10:00:40 +0800[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - 8074 - LOGS_CAPTURED - Started capturing logs in process (pid: 8074).
+[32m2026-03-13 10:00:40 +0800[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - 8074 - dbt_snapshots - STEP_START - Started execution of step "dbt_snapshots".
+[32m2026-03-13 10:00:40 +0800[0m - dagster - [34mINFO[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - dbt_snapshots - Running dbt snapshot...
+[32m2026-03-13 10:01:21 +0800[0m - dagster - [34mINFO[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - dbt_snapshots - [0m02:00:41  Running with dbt=1.10.17
+[0m02:00:50  Registered adapter: bigquery=1.11.0
+[0m02:00:52  Found 7 models, 2 snapshots, 16 data tests, 11 sources, 930 macros
+[0m02:00:52  
+[0m02:00:52  Concurrency: 1 threads (target='dev')
+[0m02:00:52  
+[0m02:00:53  1 of 2 START snapshot olist_snapshots.customers_snapshot ....................... [RUN]
+[0m02:01:07  1 of 2 OK snapshotted olist_snapshots.customers_snapshot ....................... [[32mMERGE (0.0 rows, 13.5 MiB processed)[0m in 13.49s]
+[0m02:01:07  2 of 2 START snapshot olist_snapshots.sellers_snapshot ......................... [RUN]
+[0m02:01:19  2 of 2 OK snapshotted olist_snapshots.sellers_snapshot ......................... [[32mMERGE (0.0 rows, 326.9 KiB processed)[0m in 11.87s]
+[0m02:01:19  
+[0m02:01:19  Finished running 2 snapshots in 0 hours 0 minutes and 27.11 seconds (27.11s).
+[0m02:01:19  
+[0m02:01:19  [32mCompleted successfully[0m
+[0m02:01:19  
+[0m02:01:19  Done. PASS=2 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=2
+
+[32m2026-03-13 10:01:21 +0800[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - 8074 - dbt_snapshots - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+[32m2026-03-13 10:01:21 +0800[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - 8074 - dbt_snapshots - ASSET_MATERIALIZATION - Materialized value dbt_snapshots.
+[32m2026-03-13 10:01:21 +0800[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - 8074 - dbt_snapshots - STEP_SUCCESS - Finished execution of step "dbt_snapshots" in 39.84s.

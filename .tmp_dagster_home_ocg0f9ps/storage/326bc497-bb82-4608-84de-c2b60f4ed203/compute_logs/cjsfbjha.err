@@ -1,0 +1,79 @@
+[32m2026-03-13 10:01:23 +0800[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - 10066 - LOGS_CAPTURED - Started capturing logs in process (pid: 10066).
+[32m2026-03-13 10:01:24 +0800[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - 10066 - dbt_warehouse - STEP_START - Started execution of step "dbt_warehouse".
+[32m2026-03-13 10:01:24 +0800[0m - dagster - [34mINFO[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - dbt_warehouse - Running dbt run...
+[32m2026-03-13 10:02:07 +0800[0m - dagster - [34mINFO[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - dbt_warehouse - [0m02:01:24  Running with dbt=1.10.17
+[0m02:01:32  Registered adapter: bigquery=1.11.0
+[0m02:01:32  Found 7 models, 2 snapshots, 16 data tests, 11 sources, 930 macros
+[0m02:01:32  
+[0m02:01:32  Concurrency: 1 threads (target='dev')
+[0m02:01:32  
+[0m02:01:34  1 of 7 START sql table model olist_data_warehouse.customers .................... [RUN]
+[0m02:01:39  1 of 7 OK created sql table model olist_data_warehouse.customers ............... [[32mCREATE TABLE (99.4k rows, 35.6 MiB processed)[0m in 4.78s]
+[0m02:01:39  2 of 7 START sql table model olist_data_warehouse.date ......................... [RUN]
+[0m02:01:42  2 of 7 OK created sql table model olist_data_warehouse.date .................... [[32mCREATE TABLE (4.1k rows, 0 processed)[0m in 3.10s]
+[0m02:01:42  3 of 7 START sql table model olist_data_warehouse.order_items .................. [RUN]
+[0m02:01:48  3 of 7 OK created sql table model olist_data_warehouse.order_items ............. [[32mCREATE TABLE (112.7k rows, 29.4 MiB processed)[0m in 5.84s]
+[0m02:01:48  4 of 7 START sql table model olist_data_warehouse.order_payments ............... [RUN]
+[0m02:01:51  4 of 7 OK created sql table model olist_data_warehouse.order_payments .......... [[32mCREATE TABLE (103.9k rows, 6.9 MiB processed)[0m in 3.61s]
+[0m02:01:51  5 of 7 START sql table model olist_data_warehouse.order_reviews ................ [RUN]
+[0m02:01:57  5 of 7 OK created sql table model olist_data_warehouse.order_reviews ........... [[32mCREATE TABLE (99.2k rows, 14.1 MiB processed)[0m in 6.22s]
+[0m02:01:57  6 of 7 START sql table model olist_data_warehouse.products ..................... [RUN]
+[0m02:02:01  6 of 7 OK created sql table model olist_data_warehouse.products ................ [[32mCREATE TABLE (33.0k rows, 3.3 MiB processed)[0m in 3.91s]
+[0m02:02:01  7 of 7 START sql table model olist_data_warehouse.sellers ...................... [RUN]
+[0m02:02:05  7 of 7 OK created sql table model olist_data_warehouse.sellers ................. [[32mCREATE TABLE (3.1k rows, 23.2 MiB processed)[0m in 3.48s]
+[0m02:02:05  
+[0m02:02:05  Finished running 7 table models in 0 hours 0 minutes and 32.55 seconds (32.55s).
+[0m02:02:05  
+[0m02:02:05  [32mCompleted successfully[0m
+[0m02:02:05  
+[0m02:02:05  Done. PASS=7 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=7
+
+[32m2026-03-13 10:02:07 +0800[0m - dagster - [34mINFO[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - dbt_warehouse - Running dbt test...
+[32m2026-03-13 10:02:49 +0800[0m - dagster - [34mINFO[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - dbt_warehouse - [0m02:02:08  Running with dbt=1.10.17
+[0m02:02:15  Registered adapter: bigquery=1.11.0
+[0m02:02:16  Found 7 models, 2 snapshots, 16 data tests, 11 sources, 930 macros
+[0m02:02:16  
+[0m02:02:16  Concurrency: 1 threads (target='dev')
+[0m02:02:16  
+[0m02:02:17  1 of 16 START test dbt_expectations_expect_column_values_to_be_of_type_order_items_order_purchase_date__date  [RUN]
+[0m02:02:19  1 of 16 PASS dbt_expectations_expect_column_values_to_be_of_type_order_items_order_purchase_date__date  [[32mPASS[0m in 2.07s]
+[0m02:02:19  2 of 16 START test dbt_utils_accepted_range_order_items_payment_value__0 ....... [RUN]
+[0m02:02:21  2 of 16 PASS dbt_utils_accepted_range_order_items_payment_value__0 ............. [[32mPASS[0m in 2.07s]
+[0m02:02:21  3 of 16 START test not_null_customers_dbt_scd_id ............................... [RUN]
+[0m02:02:22  3 of 16 PASS not_null_customers_dbt_scd_id ..................................... [[32mPASS[0m in 1.78s]
+[0m02:02:22  4 of 16 START test not_null_order_items_customer_scd_id ........................ [RUN]
+[0m02:02:24  4 of 16 PASS not_null_order_items_customer_scd_id .............................. [[32mPASS[0m in 1.64s]
+[0m02:02:24  5 of 16 START test not_null_order_items_order_purchase_date .................... [RUN]
+[0m02:02:27  5 of 16 PASS not_null_order_items_order_purchase_date .......................... [[32mPASS[0m in 3.12s]
+[0m02:02:27  6 of 16 START test not_null_order_items_payment_value .......................... [RUN]
+[0m02:02:29  6 of 16 PASS not_null_order_items_payment_value ................................ [[32mPASS[0m in 1.70s]
+[0m02:02:29  7 of 16 START test not_null_order_items_product_id ............................. [RUN]
+[0m02:02:31  7 of 16 PASS not_null_order_items_product_id ................................... [[32mPASS[0m in 2.17s]
+[0m02:02:31  8 of 16 START test not_null_order_items_seller_scd_id .......................... [RUN]
+[0m02:02:33  8 of 16 PASS not_null_order_items_seller_scd_id ................................ [[32mPASS[0m in 1.69s]
+[0m02:02:33  9 of 16 START test not_null_products_product_id ................................ [RUN]
+[0m02:02:35  9 of 16 PASS not_null_products_product_id ...................................... [[32mPASS[0m in 1.77s]
+[0m02:02:35  10 of 16 START test not_null_sellers_dbt_scd_id ................................ [RUN]
+[0m02:02:36  10 of 16 PASS not_null_sellers_dbt_scd_id ...................................... [[32mPASS[0m in 1.88s]
+[0m02:02:36  11 of 16 START test relationships_order_items_customer_scd_id__dbt_scd_id__ref_customers_  [RUN]
+[0m02:02:38  11 of 16 PASS relationships_order_items_customer_scd_id__dbt_scd_id__ref_customers_  [[32mPASS[0m in 1.77s]
+[0m02:02:38  12 of 16 START test relationships_order_items_product_id__product_id__ref_products_  [RUN]
+[0m02:02:40  12 of 16 PASS relationships_order_items_product_id__product_id__ref_products_ .. [[32mPASS[0m in 1.80s]
+[0m02:02:40  13 of 16 START test relationships_order_items_seller_scd_id__dbt_scd_id__ref_sellers_  [RUN]
+[0m02:02:42  13 of 16 PASS relationships_order_items_seller_scd_id__dbt_scd_id__ref_sellers_  [[32mPASS[0m in 1.82s]
+[0m02:02:42  14 of 16 START test unique_customers_dbt_scd_id ................................ [RUN]
+[0m02:02:44  14 of 16 PASS unique_customers_dbt_scd_id ...................................... [[32mPASS[0m in 1.71s]
+[0m02:02:44  15 of 16 START test unique_products_product_id ................................. [RUN]
+[0m02:02:45  15 of 16 PASS unique_products_product_id ....................................... [[32mPASS[0m in 1.64s]
+[0m02:02:45  16 of 16 START test unique_sellers_dbt_scd_id .................................. [RUN]
+[0m02:02:47  16 of 16 PASS unique_sellers_dbt_scd_id ........................................ [[32mPASS[0m in 1.80s]
+[0m02:02:47  
+[0m02:02:47  Finished running 16 data tests in 0 hours 0 minutes and 31.50 seconds (31.50s).
+[0m02:02:47  
+[0m02:02:47  [32mCompleted successfully[0m
+[0m02:02:47  
+[0m02:02:47  Done. PASS=16 WARN=0 ERROR=0 SKIP=0 NO-OP=0 TOTAL=16
+
+[32m2026-03-13 10:02:49 +0800[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - 10066 - dbt_warehouse - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+[32m2026-03-13 10:02:49 +0800[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - 10066 - dbt_warehouse - ASSET_MATERIALIZATION - Materialized value dbt_warehouse.
+[32m2026-03-13 10:02:49 +0800[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 326bc497-bb82-4608-84de-c2b60f4ed203 - 10066 - dbt_warehouse - STEP_SUCCESS - Finished execution of step "dbt_warehouse" in 1m22s.
